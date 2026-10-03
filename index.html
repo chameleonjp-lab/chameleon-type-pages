@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>カメレオン診断</title>
+<link rel="canonical" href="https://chameleonjp-lab.github.io/chameleon-type-pages/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="カメレオン診断">
+<meta property="og:description" content="生年月日とMBTIから、あなたのカメレオンタイプを診断します。">
+<meta property="og:url" content="https://chameleonjp-lab.github.io/chameleon-type-pages/">
+<meta name="description" content="生年月日とMBTIから、あなたのカメレオンタイプを診断します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#f2f7f0;
+    --bg-2:#eef3f6;
+    --surface:#ffffff;
+    --ink:#33403a;
+    --muted:#6d7a73;
+    --line:#e7ede9;
+    --brand:#49ac84;
+    --brand-deep:#3c956f;
+    --danger:#c1503f;
+    --accent:#49ac84;
+    --radius:20px;
+    --radius-sm:14px;
+    --shadow:0 10px 30px rgba(46,86,66,.10), 0 2px 8px rgba(46,86,66,.06);
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ margin:0; width:100%; max-width:100%; overflow-x:hidden; }
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body{
+    min-height:100vh;
+    font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(120% 80% at 12% -10%, rgba(120,200,160,.22), transparent 60%),
+      radial-gradient(120% 80% at 95% 0%, rgba(140,190,225,.20), transparent 55%),
+      linear-gradient(160deg, var(--bg-1), var(--bg-2));
+    background-attachment:fixed;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+    -webkit-user-select:none;
+    user-select:none;
+    -webkit-touch-callout:none;
+    overscroll-behavior-x:none;
+  }
+  button,input,select,textarea{ font:inherit; font-size:16px; }
+  button,select,a{ touch-action:manipulation; }
+  button{ -webkit-user-select:none; user-select:none; }
+  .wrap{
+    width:100%;
+    max-width:560px;
+    margin:0 auto;
+    padding:
+      calc(env(safe-area-inset-top) + 18px)
+      calc(env(safe-area-inset-right) + 18px)
+      calc(env(safe-area-inset-bottom) + 28px)
+      calc(env(safe-area-inset-left) + 18px);
+  }
+  .screen{ animation:fadeUp .35s ease both; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+  h1,h2,h3,p{ overflow-wrap:anywhere; }
+  h1{ font-weight:800; letter-spacing:.02em; }
+  .btn{
+    appearance:none;
+    -webkit-appearance:none;
+    width:100%;
+    min-height:52px;
+    padding:15px 22px;
+    border:0;
+    border-radius:999px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .08s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{ transform:translateY(1px); }
+  .btn-primary{ background:var(--brand); color:#fff; box-shadow:0 8px 18px rgba(73,172,132,.30); }
+  .btn-primary:hover{ background:var(--brand-deep); }
+  .btn-primary:disabled{ background:#a9c9bb; box-shadow:none; cursor:default; }
+  .btn-ghost{ background:transparent; color:var(--brand-deep); border:2px solid var(--line); }
+  .btn-ghost:hover{ border-color:#d3ddd7; }
+  .btn-lg{ min-height:58px; font-size:17px; }
+  .top-card,.panel,.result-card{
+    background:var(--surface);
+    box-shadow:var(--shadow);
+  }
+  .top-card{
+    border-radius:28px;
+    padding:40px 24px 32px;
+    text-align:center;
+  }
+  .top-card h1{ margin:0 0 14px; font-size:30px; }
+  .lead{ margin:0 auto 28px; max-width:30em; color:var(--muted); }
+  .notice{ margin:22px 0 0; color:var(--muted); font-size:13px; line-height:1.8; }
+  .lab-card{
+    margin-top:16px;
+    padding:22px 20px 20px;
+    border-radius:24px;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+    text-align:center;
+  }
+  .lab-card h2{ margin:0 0 8px; font-size:19px; font-weight:800; }
+  .lab-card p{ margin:0 0 16px; color:var(--muted); font-size:14px; line-height:1.75; }
+  .btn-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+  }
+  .panel{ border-radius:24px; padding:26px 22px 24px; }
+  .panel h2{ margin:2px 0 22px; font-size:21px; }
+  .field{ display:block; border:0; padding:0; margin:0 0 24px; }
+  .field-label{ display:block; margin-bottom:10px; font-size:15px; font-weight:700; }
+  .date-selects{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:8px; }
+  .date-selects select{
+    width:100%;
+    min-height:52px;
+    padding:14px 8px;
+    border:2px solid var(--line);
+    border-radius:var(--radius-sm);
+    background:#fbfdfc;
+    color:var(--ink);
+    appearance:none;
+    -webkit-appearance:none;
+    text-align:center;
+    text-align-last:center;
+  }
+  .date-selects select:focus{ outline:none; border-color:var(--brand); }
+  .type-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .type-chip{
+    appearance:none;
+    -webkit-appearance:none;
+    width:100%;
+    min-height:60px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    padding:11px 6px;
+    border:2px solid var(--group-color, var(--line));
+    border-radius:var(--radius-sm);
+    background:#fbfdfc;
+    color:var(--ink);
+    cursor:pointer;
+    transition:transform .08s ease, background-color .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  .type-chip:active{ transform:translateY(1px); }
+  .type-chip .t-code{ font-size:15px; font-weight:800; letter-spacing:.04em; }
+  .type-chip .t-name{ font-size:13px; font-weight:700; }
+  .type-chip[aria-pressed="true"]{ box-shadow:0 6px 14px rgba(0,0,0,.14); }
+  .form-error{
+    margin:0 0 18px;
+    padding:12px 14px;
+    border:1px solid #f6d4cf;
+    border-radius:var(--radius-sm);
+    background:#fdeeec;
+    color:var(--danger);
+    font-size:14px;
+    font-weight:700;
+    line-height:1.7;
+    white-space:pre-line;
+  }
+  .panel-actions{ display:grid; gap:10px; margin-top:6px; }
+  .result-card{ border-radius:26px; overflow:hidden; }
+  .result-hero{ background:var(--accent); color:#fff; padding:34px 22px 30px; text-align:center; }
+  .result-label{ margin:0 0 6px; font-size:14px; font-weight:700; letter-spacing:.06em; opacity:.92; }
+  .result-typename{ margin:0 0 12px; font-size:27px; font-weight:800; line-height:1.4; }
+  .result-catch{ margin:0; font-size:15px; line-height:1.8; opacity:.96; }
+  .result-body{ padding:8px 20px 8px; }
+  .block{ padding:22px 2px; border-bottom:1px solid var(--line); animation:reveal .45s ease both; }
+  .block:last-of-type{ border-bottom:0; }
+  @keyframes reveal{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
+  .block h3{ display:flex; align-items:center; gap:9px; margin:0 0 12px; font-size:16px; font-weight:800; }
+  .block h3::before{ content:""; width:10px; height:10px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
+  .block p{ margin:0; }
+  .block ul{ margin:0; padding:0; list-style:none; display:grid; gap:9px; }
+  .block li{ position:relative; padding-left:20px; }
+  .block li::before{ content:""; position:absolute; left:2px; top:.72em; width:7px; height:7px; border-radius:50%; background:var(--accent); opacity:.7; }
+  .color-row{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .color-swatch{ width:34px; height:34px; border-radius:10px; flex:0 0 auto; box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
+  .color-name{ font-size:16px; font-weight:800; }
+  .compat-list{ display:grid; gap:12px; }
+  .compat-item{ border-left:4px solid var(--accent); border-radius:0 12px 12px 0; background:#fafcfb; padding:12px 14px; }
+  .compat-name{ margin:0 0 4px; font-weight:800; }
+  .compat-reason{ margin:0; color:var(--muted); font-size:14px; line-height:1.75; }
+  .compat-missing{ margin:0; color:var(--muted); font-size:14px; }
+  .block.final{ margin:8px 0 4px; border-bottom:0; border-radius:18px; background:linear-gradient(160deg, rgba(73,172,132,.06), rgba(73,172,132,.02)); }
+  .block.final p{ font-size:16px; }
+  .result-actions{ display:grid; gap:10px; padding:20px; }
+  .share-feedback{ margin:0; padding:0 20px 22px; text-align:center; color:var(--brand-deep); font-size:14px; font-weight:700; }
+  .small-note{ color:var(--muted); font-size:13px; line-height:1.7; }
+  @media (max-width:360px){
+    .type-grid{ gap:8px; }
+    .type-chip{ min-height:56px; padding:10px 4px; }
+    .type-chip .t-name{ font-size:12px; }
+    .date-selects{ gap:6px; }
+    .date-selects select{ padding:14px 4px; }
+    .top-card h1{ font-size:26px; }
+    .result-typename{ font-size:24px; }
+  }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="screen-top" class="screen">
+    <div class="top-card">
+      <h1>カメレオン診断</h1>
+      <p class="lead">生年月日とMBTIから、あなたのカメレオンタイプを診断します。</p>
+      <button id="btn-start" class="btn btn-primary btn-lg" type="button">診断を始める</button>
+      <p class="notice">※入力した生年月日、MBTIは保存されません。</p>
+    </div>
+
+    <aside class="lab-card" aria-label="カメレオンの実験場">
+      <h2>カメレオンの実験場</h2>
+      <p>診断とは別に、短いブラウザゲームで遊べます。</p>
+      <a class="btn btn-ghost btn-link" href="https://chameleonjp-lab.github.io/chameleonjp_lab/">ゲームで遊ぶ</a>
+    </aside>
+  </section>
+
+  <section id="screen-input" class="screen" hidden>
+    <div class="panel">
+      <h2>あなたのことを教えてください</h2>
+      <fieldset class="field">
+        <legend class="field-label">生年月日</legend>
+        <div class="date-selects">
+          <select id="sel-year" aria-label="年"></select>
+          <select id="sel-month" aria-label="月"></select>
+          <select id="sel-day" aria-label="日"></select>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend class="field-label">MBTI</legend>
+        <div class="type-grid" id="type-grid"></div>
+      </fieldset>
+      <p class="form-error" id="form-error" hidden></p>
+      <div class="panel-actions">
+        <button id="btn-diagnose" class="btn btn-primary" type="button">診断する</button>
+        <button id="btn-back-top" class="btn btn-ghost" type="button">トップへ戻る</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-result" class="screen" hidden>
+    <article class="result-card">
+      <header class="result-hero" id="result-hero">
+        <p class="result-label" id="r-label"></p>
+        <h2 class="result-typename" id="r-typename"></h2>
+        <p class="result-catch" id="r-catch"></p>
+      </header>
+      <div class="result-body">
+        <section class="block" id="block-color">
+          <h3>基本カラー</h3>
+          <div class="color-row">
+            <span class="color-swatch" id="r-color-swatch" aria-hidden="true"></span>
+            <span class="color-name" id="r-color-name"></span>
+          </div>
+          <p id="r-color-text"></p>
+        </section>
+        <section class="block" id="block-everyday"><h3>普段のあなた</h3><p id="r-everyday"></p></section>
+        <section class="block" id="block-seen"><h3>人から見たあなた</h3><p id="r-seen"></p></section>
+        <section class="block" id="block-switches"><h3>変色スイッチ</h3><ul id="r-switches"></ul></section>
+        <section class="block" id="block-strengths"><h3>強み</h3><ul id="r-strengths"></ul></section>
+        <section class="block" id="block-weak"><h3>つまずきやすい所</h3><ul id="r-weak"></ul></section>
+        <section class="block" id="block-relationship"><h3>人間関係のクセ</h3><p id="r-relationship"></p></section>
+        <section class="block" id="block-love"><h3>恋愛・距離感</h3><p id="r-love"></p></section>
+        <section class="block" id="block-work"><h3>仕事・創作・活動の向き方</h3><p id="r-work"></p></section>
+        <section class="block" id="block-recovery"><h3>元気が落ちた時の戻り方</h3><p id="r-recovery"></p></section>
+        <section class="block" id="block-compat-love"><h3>恋愛で相性がよいタイプ</h3><div class="compat-list" id="r-compat-love"></div></section>
+        <section class="block" id="block-compat-friend"><h3>友達として相性がよいタイプ</h3><div class="compat-list" id="r-compat-friend"></div></section>
+        <section class="block" id="block-incompat-love"><h3>恋愛で注意したいタイプ</h3><div class="compat-list" id="r-incompat-love"></div></section>
+        <section class="block" id="block-incompat-friend"><h3>友達として注意したいタイプ</h3><div class="compat-list" id="r-incompat-friend"></div></section>
+        <section class="block final" id="block-final"><h3>あなたへの一言</h3><p id="r-final"></p></section>
+      </div>
+      <div class="result-actions">
+        <button id="btn-share" class="btn btn-primary" type="button">結果をシェアする</button>
+        <button id="btn-restart" class="btn btn-ghost" type="button">もう一度診断する</button>
+      </div>
+      <p class="share-feedback" id="share-feedback" hidden></p>
+    </article>
+  </section>
+</div>
+<script>
+(function(){
+  "use strict";
+
+  var SITE_URL = "https://chameleonjp-lab.github.io/chameleon-type-pages/";
+  var RESULTS_PATH = "./final/results.json";
+  var TYPES = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
+  var TYPE_PATTERN = /\b(?:INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|ESFP)\b/g;
+  var GROUP_PATTERN = /\bG[1-9]_(?:INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|ESFP)\b|\bG[1-9]\b/g;
+  var TYPE_GROUPS = [
+    { color:"#8a7fc4", types:[
+      { code:"INTJ", name:"建築家" }, { code:"INTP", name:"論理学者" },
+      { code:"ENTJ", name:"指揮官" }, { code:"ENTP", name:"討論者" }
+    ]},
+    { color:"#56a883", types:[
+      { code:"INFJ", name:"提唱者" }, { code:"INFP", name:"仲介者" },
+      { code:"ENFJ", name:"主人公" }, { code:"ENFP", name:"運動家" }
+    ]},
+    { color:"#4fa3c4", types:[
+      { code:"ISTJ", name:"管理者" }, { code:"ISFJ", name:"擁護者" },
+      { code:"ESTJ", name:"幹部" }, { code:"ESFJ", name:"領事官" }
+    ]},
+    { color:"#d6a52a", types:[
+      { code:"ISTP", name:"巨匠" }, { code:"ISFP", name:"冒険家" },
+      { code:"ESTP", name:"起業家" }, { code:"ESFP", name:"エンターテイナー" }
+    ]}
+  ];
+
+  var RESULTS = [];
+  var RESULTS_BY_ID = new Map();
+  var RESULTS_BY_NUMBER = new Map();
+  var loadState = "idle";
+  var selectedType = null;
+  var currentResult = null;
+
+  function $(id){ return document.getElementById(id); }
+  function isText(v){ return typeof v === "string" && v.trim() !== ""; }
+  function pad2(n){ n = String(n); return n.length < 2 ? "0" + n : n; }
+  function sumDigits(n){
+    return String(n).split("").reduce(function(sum, char){
+      var v = parseInt(char, 10);
+      return sum + (isNaN(v) ? 0 : v);
+    }, 0);
+  }
+  function publicText(value){
+    if (!isText(value)) return "";
+    return value
+      .replace(GROUP_PATTERN, "")
+      .replace(TYPE_PATTERN, "")
+      .replace(/\bMBTI\b/g, "16タイプ")
+      .replace(/\s+([、。,.!?！？」』）)】\]])/g, "$1")
+      .replace(/([「『（(【\[])\s+/g, "$1")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+  function normalizeHex(value, fallback){
+    return /^#[0-9a-fA-F]{6}$/.test(value || "") ? value : fallback;
+  }
+  function textOnColor(hex){
+    var clean = /^#?([0-9a-fA-F]{6})$/.exec(hex || "");
+    if (!clean) return "#ffffff";
+    var n = parseInt(clean[1], 16);
+    var r = (n >> 16) & 255;
+    var g = (n >> 8) & 255;
+    var b = n & 255;
+    var lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return lum > 0.62 ? "#2b2b2b" : "#ffffff";
+  }
+
+  function getInternalGroup(birthString){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(birthString || "");
+    if (!m) return null;
+    var year = parseInt(m[1], 10);
+    var month = parseInt(m[2], 10);
+    var day = parseInt(m[3], 10);
+    if (month < 2 || (month === 2 && day < 4)) year -= 1;
+    var root = sumDigits(year);
+    while (root > 9) root = sumDigits(root);
+    var number = 11 - root;
+    if (number > 9) number -= 9;
+    if (number <= 0) number += 9;
+    return "G" + number;
+  }
+
+  function expectedIds(){
+    var ids = [];
+    for (var g = 1; g <= 9; g++) {
+      TYPES.forEach(function(type){ ids.push("G" + g + "_" + type); });
+    }
+    return ids;
+  }
+  function validateResults(arr){
+    var problems = [];
+    var seen = new Set();
+    arr.forEach(function(r){
+      if (!r || !isText(r.id)) { problems.push("id がない項目があります"); return; }
+      if (seen.has(r.id)) problems.push("重複ID: " + r.id);
+      seen.add(r.id);
+    });
+    expectedIds().forEach(function(id){
+      if (!seen.has(id)) problems.push("不足ID: " + id);
+    });
+    if (arr.length !== 144) problems.push("件数が144件ではありません: " + arr.length + "件");
+    return problems;
+  }
+  function loadResults(){
+    if (loadState === "ready") return Promise.resolve(true);
+    loadState = "loading";
+    return fetch(RESULTS_PATH, { cache:"no-store" })
+      .then(function(res){
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function(data){
+        var arr = Array.isArray(data) ? data : (data && Array.isArray(data.results) ? data.results : null);
+        if (!arr) throw new Error("results.json の形が想定と違います");
+        RESULTS = arr.map(function(r, index){
+          var item = Object.assign({}, r);
+          var number = parseInt(item.shareNumber, 10);
+          item.shareNumber = (!isNaN(number) && number >= 1 && number <= 144) ? number : index + 1;
+          return item;
+        });
+        RESULTS_BY_ID.clear();
+        RESULTS_BY_NUMBER.clear();
+        RESULTS.forEach(function(r){
+          if (r && isText(r.id)) RESULTS_BY_ID.set(r.id, r);
+          if (r && r.shareNumber) RESULTS_BY_NUMBER.set(String(r.shareNumber), r);
+        });
+        var problems = validateResults(RESULTS);
+        if (problems.length) console.warn("results.json 検証メモ", problems.slice(0, 20));
+        loadState = "ready";
+        return true;
+      })
+      .catch(function(e){
+        console.error("results.json を読み込めませんでした", e);
+        loadState = "error";
+        return false;
+      });
+  }
+
+  function makeOption(value, label){
+    var option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    return option;
+  }
+  function buildDateSelects(){
+    var yEl = $("sel-year");
+    var mEl = $("sel-month");
+    var dEl = $("sel-day");
+    yEl.textContent = "";
+    mEl.textContent = "";
+    dEl.textContent = "";
+    yEl.appendChild(makeOption("", "年"));
+    var thisYear = new Date().getFullYear();
+    for (var y = thisYear; y >= 1900; y--) yEl.appendChild(makeOption(String(y), y + "年"));
+    mEl.appendChild(makeOption("", "月"));
+    for (var m = 1; m <= 12; m++) mEl.appendChild(makeOption(String(m), m + "月"));
+    dEl.appendChild(makeOption("", "日"));
+    rebuildDays();
+    yEl.addEventListener("change", function(){ rebuildDays(); hideFormError(); });
+    mEl.addEventListener("change", function(){ rebuildDays(); hideFormError(); });
+    dEl.addEventListener("change", hideFormError);
+  }
+  function rebuildDays(){
+    var y = parseInt($("sel-year").value, 10);
+    var m = parseInt($("sel-month").value, 10);
+    var dEl = $("sel-day");
+    var max = 31;
+    if (y && m) max = new Date(y, m, 0).getDate();
+    else if (m) max = [31,29,31,30,31,30,31,31,30,31,30,31][m - 1];
+    var prev = dEl.value;
+    while (dEl.options.length > 1) dEl.remove(1);
+    for (var d = 1; d <= max; d++) dEl.appendChild(makeOption(String(d), d + "日"));
+    dEl.value = (prev && parseInt(prev, 10) <= max) ? prev : "";
+  }
+  function getBirthString(){
+    var y = $("sel-year").value;
+    var m = $("sel-month").value;
+    var d = $("sel-day").value;
+    if (!y || !m || !d) return "";
+    return y + "-" + pad2(m) + "-" + pad2(d);
+  }
+
+  function buildTypeGrid(){
+    var grid = $("type-grid");
+    grid.textContent = "";
+    TYPE_GROUPS.forEach(function(group){
+      group.types.forEach(function(type){
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "type-chip";
+        button.style.setProperty("--group-color", group.color);
+        button.setAttribute("aria-pressed", "false");
+        button.setAttribute("aria-label", type.code + " " + type.name);
+        button.dataset.code = type.code;
+        button.dataset.color = group.color;
+        var code = document.createElement("span");
+        code.className = "t-code";
+        code.textContent = type.code;
+        var name = document.createElement("span");
+        name.className = "t-name";
+        name.textContent = type.name;
+        button.appendChild(code);
+        button.appendChild(name);
+        button.addEventListener("click", function(){ selectType(button); });
+        grid.appendChild(button);
+      });
+    });
+  }
+  function selectType(button){
+    selectedType = button.dataset.code;
+    Array.prototype.forEach.call($("type-grid").children, function(child){
+      var on = child === button;
+      child.setAttribute("aria-pressed", on ? "true" : "false");
+      if (on) {
+        child.style.backgroundColor = child.dataset.color;
+        child.style.color = textOnColor(child.dataset.color);
+      } else {
+        child.style.backgroundColor = "";
+        child.style.color = "";
+      }
+    });
+    hideFormError();
+  }
+
+  function showScreen(name){
+    ["top", "input", "result"].forEach(function(key){
+      var el = $("screen-" + key);
+      if (el) el.hidden = key !== name;
+    });
+    window.scrollTo(0, 0);
+  }
+  function showFormError(lines){
+    var el = $("form-error");
+    el.textContent = lines.join("\n");
+    el.hidden = false;
+  }
+  function hideFormError(){
+    var el = $("form-error");
+    el.hidden = true;
+    el.textContent = "";
+  }
+  function setDiagnoseBusy(busy){
+    var btn = $("btn-diagnose");
+    btn.disabled = busy;
+    btn.textContent = busy ? "診断中…" : "診断する";
+  }
+  function setTextBlock(blockId, elId, value){
+    var text = publicText(value);
+    var block = $(blockId);
+    var el = $(elId);
+    el.textContent = text;
+    if (block) block.hidden = text === "";
+  }
+  function setTextNoHide(elId, value){ $(elId).textContent = publicText(value); }
+  function fillList(blockId, ulId, items){
+    var ul = $(ulId);
+    var block = $(blockId);
+    ul.textContent = "";
+    var arr = Array.isArray(items) ? items.map(publicText).filter(Boolean) : [];
+    if (arr.length === 0) { if (block) block.hidden = true; return; }
+    if (block) block.hidden = false;
+    arr.forEach(function(text){
+      var li = document.createElement("li");
+      li.textContent = text;
+      ul.appendChild(li);
+    });
+  }
+  function fillCompat(blockId, containerId, list){
+    var block = $(blockId);
+    var container = $(containerId);
+    container.textContent = "";
+    var arr = Array.isArray(list) ? list : [];
+    var shown = 0;
+    arr.forEach(function(entry){
+      if (!entry || !isText(entry.resultId)) return;
+      var partner = RESULTS_BY_ID.get(entry.resultId);
+      if (!partner || !isText(partner.typeName)) return;
+      var item = document.createElement("div");
+      item.className = "compat-item";
+      var name = document.createElement("p");
+      name.className = "compat-name";
+      name.textContent = publicText(partner.typeName);
+      item.appendChild(name);
+      var reasonText = publicText(entry.reason);
+      if (reasonText) {
+        var reason = document.createElement("p");
+        reason.className = "compat-reason";
+        reason.textContent = reasonText;
+        item.appendChild(reason);
+      }
+      container.appendChild(item);
+      shown++;
+    });
+    if (block) block.hidden = shown === 0;
+  }
+  function renderResult(result){
+    currentResult = result;
+    if (result && result.shareNumber) {
+      history.replaceState(null, "", "?result=" + encodeURIComponent(String(result.shareNumber)));
+    }
+    var base = normalizeHex(result.baseColorHex, "#49ac84");
+    var textColor = normalizeHex(result.textColorHex, textOnColor(base));
+    var card = document.querySelector(".result-card");
+    card.style.setProperty("--accent", base);
+    var hero = $("result-hero");
+    hero.style.backgroundColor = base;
+    hero.style.color = textColor;
+    setTextNoHide("r-label", result.label);
+    setTextNoHide("r-typename", result.typeName);
+    setTextNoHide("r-catch", result.catchCopy);
+    $("r-color-swatch").style.backgroundColor = base;
+    $("r-color-name").textContent = publicText(result.baseColorName);
+    setTextBlock("block-color", "r-color-text", result.baseColorText);
+    $("block-color").hidden = false;
+    setTextBlock("block-everyday", "r-everyday", result.everydayText);
+    setTextBlock("block-seen", "r-seen", result.seenByOthersText);
+    fillList("block-switches", "r-switches", result.colorSwitches);
+    fillList("block-strengths", "r-strengths", result.strengths);
+    fillList("block-weak", "r-weak", result.weakPoints);
+    setTextBlock("block-relationship", "r-relationship", result.relationshipText);
+    setTextBlock("block-love", "r-love", result.loveText);
+    setTextBlock("block-work", "r-work", result.workText);
+    setTextBlock("block-recovery", "r-recovery", result.recoveryText);
+    fillCompat("block-compat-love", "r-compat-love", result.compatibleLove);
+    fillCompat("block-compat-friend", "r-compat-friend", result.compatibleFriend);
+    fillCompat("block-incompat-love", "r-incompat-love", result.incompatibleLove);
+    fillCompat("block-incompat-friend", "r-incompat-friend", result.incompatibleFriend);
+    setTextBlock("block-final", "r-final", result.finalMessage);
+    staggerReveal();
+  }
+  function staggerReveal(){
+    Array.prototype.forEach.call(document.querySelectorAll("#screen-result .block:not([hidden])"), function(block, i){
+      block.style.animation = "none";
+      void block.offsetWidth;
+      block.style.animation = "reveal .45s ease both";
+      block.style.animationDelay = Math.min(i, 10) * 0.04 + "s";
+    });
+  }
+  function onDiagnose(){
+    var birth = getBirthString();
+    var errors = [];
+    if (!birth) errors.push("生年月日を入力してください。");
+    if (!selectedType) errors.push("MBTIを選んでください。");
+    if (errors.length) { showFormError(errors); return; }
+    hideFormError();
+    setDiagnoseBusy(true);
+    var ready = loadState === "ready" ? Promise.resolve(true) : loadResults();
+    ready.then(function(ok){
+      setDiagnoseBusy(false);
+      if (!ok || RESULTS.length === 0) {
+        showFormError(["診断結果を読み込めませんでした。", "公開先に final/results.json があるか確認してください。"]); return;
+      }
+      var group = getInternalGroup(birth);
+      if (!group) { showFormError(["生年月日を正しく入力してください。"]); return; }
+      var result = RESULTS_BY_ID.get(group + "_" + selectedType);
+      if (!result) { showFormError(["診断結果を読み込めませんでした。", "final/results.json に該当する結果がありません。"]); return; }
+      renderResult(result);
+      showScreen("result");
+    });
+  }
+  function buildShareUrl(result){
+    if (!result) return SITE_URL;
+    var number = parseInt(result.shareNumber, 10);
+    if (isNaN(number) || number < 1 || number > 144) {
+      var index = RESULTS.indexOf(result);
+      number = index >= 0 ? index + 1 : "";
+    }
+    return number ? SITE_URL + "?result=" + encodeURIComponent(String(number)) : SITE_URL;
+  }
+  function buildShareText(){
+    if (!currentResult) return "";
+    var typeName = publicText(currentResult.typeName);
+    var catchCopy = publicText(currentResult.catchCopy);
+    return "私は「" + typeName + "」でした。\n" + catchCopy + "\n#カメレオン診断\n" + buildShareUrl(currentResult);
+  }
+  function buildWebShareText(){
+    if (!currentResult) return "";
+    var typeName = publicText(currentResult.typeName);
+    var catchCopy = publicText(currentResult.catchCopy);
+    return "私は「" + typeName + "」でした。\n" + catchCopy + "\n#カメレオン診断";
+  }
+  function showShareFeedback(message){
+    var el = $("share-feedback");
+    el.textContent = message;
+    el.hidden = false;
+    window.clearTimeout(showShareFeedback.timer);
+    showShareFeedback.timer = window.setTimeout(function(){ el.hidden = true; }, 3000);
+  }
+  function legacyCopy(text){
+    var textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    textarea.style.top = "0";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(textarea);
+    return ok;
+  }
+  function copyToClipboard(text){
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){
+        showShareFeedback("シェア文をコピーしました。");
+      }).catch(function(){
+        showShareFeedback(legacyCopy(text) ? "シェア文をコピーしました。" : "コピーできませんでした。共有ボタンをもう一度お試しください。");
+      });
+      return;
+    }
+    showShareFeedback(legacyCopy(text) ? "シェア文をコピーしました。" : "コピーできませんでした。共有ボタンをもう一度お試しください。");
+  }
+  function onShare(){
+    var text = buildShareText();
+    if (!text) return;
+    if (navigator.share) {
+      navigator.share({ title:"カメレオン診断", text:text }).catch(function(e){
+        if (e && e.name === "AbortError") return;
+        copyToClipboard(text);
+      });
+      return;
+    }
+    copyToClipboard(text);
+  }
+  function getRequestedResultNumber(){
+    var value = new URLSearchParams(window.location.search).get("result");
+    if (!/^\d+$/.test(value || "")) return null;
+    return value;
+  }
+  function clearResultQuery(){
+    if (window.location.search) history.replaceState(null, "", window.location.pathname);
+  }
+  function renderResultFromUrl(){
+    var params = new URLSearchParams(window.location.search);
+    if (!params.has("result")) return false;
+    var requested = getRequestedResultNumber();
+    if (!requested) {
+      showScreen("input");
+      showFormError(["結果を表示できませんでした。", "?result= には 1〜144 の番号を指定してください。"]);
+      return true;
+    }
+    var result = RESULTS_BY_NUMBER.get(requested);
+    if (!result) {
+      showScreen("input");
+      showFormError(["結果を表示できませんでした。", "?result= には 1〜144 の番号を指定してください。"]);
+      return true;
+    }
+    renderResult(result);
+    showScreen("result");
+    return true;
+  }
+  function init(){
+    buildDateSelects();
+    buildTypeGrid();
+    $("btn-start").addEventListener("click", function(){ clearResultQuery(); showScreen("input"); });
+    $("btn-back-top").addEventListener("click", function(){ clearResultQuery(); showScreen("top"); });
+    $("btn-diagnose").addEventListener("click", onDiagnose);
+    $("btn-share").addEventListener("click", onShare);
+    $("btn-restart").addEventListener("click", function(){ clearResultQuery(); showScreen("input"); });
+    loadResults().then(function(ok){
+      if (ok) renderResultFromUrl();
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
+</body>
+</html>
