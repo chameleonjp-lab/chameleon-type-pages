@@ -188,6 +188,8 @@
   .compat-list{ display:grid; gap:12px; }
   .compat-item{ border-left:4px solid var(--accent); border-radius:0 12px 12px 0; background:#fafcfb; padding:12px 14px; }
   .compat-name{ margin:0 0 4px; font-weight:800; }
+  .compat-link{ display:inline-flex; align-items:center; min-height:44px; color:inherit; text-decoration:underline; text-underline-offset:3px; touch-action:manipulation; }
+  .compat-link:focus-visible{ outline:3px solid currentColor; outline-offset:3px; border-radius:4px; }
   .compat-reason{ margin:0; color:var(--muted); font-size:14px; line-height:1.75; }
   .compat-missing{ margin:0; color:var(--muted); font-size:14px; }
   .block.final{ margin:8px 0 4px; border-bottom:0; border-radius:18px; background:linear-gradient(160deg, rgba(73,172,132,.06), rgba(73,172,132,.02)); }
@@ -555,7 +557,7 @@
       ul.appendChild(li);
     });
   }
-  function fillCompat(blockId, containerId, list){
+  function fillCompat(blockId, containerId, list, linkNames){
     var block = $(blockId);
     var container = $(containerId);
     container.textContent = "";
@@ -569,7 +571,17 @@
       item.className = "compat-item";
       var name = document.createElement("p");
       name.className = "compat-name";
-      name.textContent = publicText(partner.typeName);
+      var partnerNumber = getResultNumber(partner);
+      if (linkNames && partnerNumber) {
+        var link = document.createElement("a");
+        link.className = "compat-link";
+        link.href = "?result=" + encodeURIComponent(partnerNumber);
+        link.textContent = publicText(partner.typeName);
+        link.setAttribute("aria-label", publicText(partner.typeName) + "の診断結果を見る");
+        name.appendChild(link);
+      } else {
+        name.textContent = publicText(partner.typeName);
+      }
       item.appendChild(name);
       var reasonText = publicText(entry.reason);
       if (reasonText) {
@@ -611,8 +623,8 @@
     setTextBlock("block-love", "r-love", result.loveText);
     setTextBlock("block-work", "r-work", result.workText);
     setTextBlock("block-recovery", "r-recovery", result.recoveryText);
-    fillCompat("block-compat-love", "r-compat-love", result.compatibleLove);
-    fillCompat("block-compat-friend", "r-compat-friend", result.compatibleFriend);
+    fillCompat("block-compat-love", "r-compat-love", result.compatibleLove, true);
+    fillCompat("block-compat-friend", "r-compat-friend", result.compatibleFriend, true);
     fillCompat("block-incompat-love", "r-incompat-love", result.incompatibleLove);
     fillCompat("block-incompat-friend", "r-incompat-friend", result.incompatibleFriend);
     setTextBlock("block-final", "r-final", result.finalMessage);
@@ -648,14 +660,18 @@
       showScreen("result");
     });
   }
-  function buildShareUrl(result){
-    if (!result) return SITE_URL;
+  function getResultNumber(result){
+    if (!result) return "";
     var number = parseInt(result.shareNumber, 10);
     if (isNaN(number) || number < 1 || number > 144) {
       var index = RESULTS.indexOf(result);
       number = index >= 0 ? index + 1 : "";
     }
-    return number ? SITE_URL + "?result=" + encodeURIComponent(String(number)) : SITE_URL;
+    return number ? String(number) : "";
+  }
+  function buildShareUrl(result){
+    var number = getResultNumber(result);
+    return number ? SITE_URL + "?result=" + encodeURIComponent(number) : SITE_URL;
   }
   function buildShareText(){
     if (!currentResult) return "";
