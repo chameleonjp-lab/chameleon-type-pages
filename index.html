@@ -216,7 +216,7 @@
       <h1>カメレオン診断</h1>
       <p class="lead">生年月日とMBTIから、あなたのカメレオンタイプを診断します。</p>
       <button id="btn-start" class="btn btn-primary btn-lg" type="button">診断を始める</button>
-      <p class="notice">※入力した生年月日、MBTIは保存されません。</p>
+      <p class="notice">入力した生年月日とMBTIは保存されません。</p>
     </div>
 
     <aside class="lab-card" aria-label="カメレオンの実験場">
@@ -228,7 +228,7 @@
 
   <section id="screen-input" class="screen" hidden>
     <div class="panel">
-      <h2>あなたのことを教えてください</h2>
+      <h2>生年月日とMBTIを選んでください</h2>
       <fieldset class="field">
         <legend class="field-label">生年月日</legend>
         <div class="date-selects">
@@ -267,13 +267,13 @@
         </section>
         <section class="block" id="block-everyday"><h3>普段のあなた</h3><p id="r-everyday"></p></section>
         <section class="block" id="block-seen"><h3>人から見たあなた</h3><p id="r-seen"></p></section>
-        <section class="block" id="block-switches"><h3>変色スイッチ</h3><ul id="r-switches"></ul></section>
+        <section class="block" id="block-switches"><h3>特徴が出やすい場面</h3><ul id="r-switches"></ul></section>
         <section class="block" id="block-strengths"><h3>強み</h3><ul id="r-strengths"></ul></section>
-        <section class="block" id="block-weak"><h3>つまずきやすい所</h3><ul id="r-weak"></ul></section>
-        <section class="block" id="block-relationship"><h3>人間関係のクセ</h3><p id="r-relationship"></p></section>
+        <section class="block" id="block-weak"><h3>つまずきやすいところ</h3><ul id="r-weak"></ul></section>
+        <section class="block" id="block-relationship"><h3>人との付き合い方</h3><p id="r-relationship"></p></section>
         <section class="block" id="block-love"><h3>恋愛・距離感</h3><p id="r-love"></p></section>
-        <section class="block" id="block-work"><h3>仕事・創作・活動の向き方</h3><p id="r-work"></p></section>
-        <section class="block" id="block-recovery"><h3>元気が落ちた時の戻り方</h3><p id="r-recovery"></p></section>
+        <section class="block" id="block-work"><h3>仕事や創作での得意・不得意</h3><p id="r-work"></p></section>
+        <section class="block" id="block-recovery"><h3>調子を取り戻すために</h3><p id="r-recovery"></p></section>
         <section class="block" id="block-compat-love"><h3>恋愛で相性がよいタイプ</h3><div class="compat-list" id="r-compat-love"></div></section>
         <section class="block" id="block-compat-friend"><h3>友達として相性がよいタイプ</h3><div class="compat-list" id="r-compat-friend"></div></section>
         <section class="block" id="block-incompat-love"><h3>恋愛で注意したいタイプ</h3><div class="compat-list" id="r-incompat-love"></div></section>
@@ -650,12 +650,12 @@
     ready.then(function(ok){
       setDiagnoseBusy(false);
       if (!ok || RESULTS.length === 0) {
-        showFormError(["診断結果を読み込めませんでした。", "公開先に final/results.json があるか確認してください。"]); return;
+        showFormError(["診断結果を読み込めませんでした。", "ページを再読み込みして、もう一度お試しください。"]); return;
       }
       var group = getInternalGroup(birth);
       if (!group) { showFormError(["生年月日を正しく入力してください。"]); return; }
       var result = RESULTS_BY_ID.get(group + "_" + selectedType);
-      if (!result) { showFormError(["診断結果を読み込めませんでした。", "final/results.json に該当する結果がありません。"]); return; }
+      if (!result) { showFormError(["診断結果を読み込めませんでした。", "選んだ内容に対応する診断結果が見つかりませんでした。"]); return; }
       renderResult(result);
       showScreen("result");
     });
@@ -712,11 +712,11 @@
       navigator.clipboard.writeText(text).then(function(){
         showShareFeedback("シェア文をコピーしました。");
       }).catch(function(){
-        showShareFeedback(legacyCopy(text) ? "シェア文をコピーしました。" : "コピーできませんでした。共有ボタンをもう一度お試しください。");
+        showShareFeedback(legacyCopy(text) ? "シェア文をコピーしました。" : "コピーできませんでした。「結果をシェアする」をもう一度押してください。");
       });
       return;
     }
-    showShareFeedback(legacyCopy(text) ? "シェア文をコピーしました。" : "コピーできませんでした。共有ボタンをもう一度お試しください。");
+    showShareFeedback(legacyCopy(text) ? "シェア文をコピーしました。" : "コピーできませんでした。「結果をシェアする」をもう一度押してください。");
   }
   function onShare(){
     var text = buildShareText();
