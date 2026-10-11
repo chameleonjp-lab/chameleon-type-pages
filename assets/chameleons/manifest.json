@@ -571,7 +571,7 @@
       "path": "assets/chameleons/web/G4_ENTP.webp",
       "width": 512,
       "height": 512,
-      "status": "needs-review"
+      "status": "complete"
     },
     {
       "resultId": "G4_INFJ",
@@ -582,7 +582,7 @@
       "path": "assets/chameleons/web/G4_INFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "needs-review"
+      "status": "complete"
     },
     {
       "resultId": "G4_INFP",
@@ -593,7 +593,7 @@
       "path": "assets/chameleons/web/G4_INFP.webp",
       "width": 512,
       "height": 512,
-      "status": "needs-review"
+      "status": "complete"
     },
     {
       "resultId": "G4_ENFJ",
@@ -604,7 +604,7 @@
       "path": "assets/chameleons/web/G4_ENFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G4_ENFP",
@@ -615,7 +615,7 @@
       "path": "assets/chameleons/web/G4_ENFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G4_ISTJ",
@@ -626,7 +626,7 @@
       "path": "assets/chameleons/web/G4_ISTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G4_ISFJ",
@@ -637,7 +637,7 @@
       "path": "assets/chameleons/web/G4_ISFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G4_ESTJ",
@@ -648,7 +648,7 @@
       "path": "assets/chameleons/web/G4_ESTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G4_ESFJ",
@@ -659,7 +659,7 @@
       "path": "assets/chameleons/web/G4_ESFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G4_ISTP",
@@ -912,7 +912,7 @@
       "path": "assets/chameleons/web/G6_ENTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_ENTP",
@@ -923,7 +923,7 @@
       "path": "assets/chameleons/web/G6_ENTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_INFJ",
@@ -934,7 +934,7 @@
       "path": "assets/chameleons/web/G6_INFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_INFP",
@@ -945,7 +945,7 @@
       "path": "assets/chameleons/web/G6_INFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_ENFJ",
@@ -956,7 +956,7 @@
       "path": "assets/chameleons/web/G6_ENFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_ENFP",
@@ -967,7 +967,7 @@
       "path": "assets/chameleons/web/G6_ENFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_ISTJ",
@@ -978,7 +978,7 @@
       "path": "assets/chameleons/web/G6_ISTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_ISFJ",
@@ -989,7 +989,7 @@
       "path": "assets/chameleons/web/G6_ISFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G6_ESTJ",
@@ -1297,7 +1297,7 @@
       "path": "assets/chameleons/web/G8_INFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G8_ENFJ",
@@ -1308,7 +1308,7 @@
       "path": "assets/chameleons/web/G8_ENFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G8_ENFP",
@@ -1539,7 +1539,7 @@
       "path": "assets/chameleons/web/G9_ESFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "needs-review"
+      "status": "complete"
     },
     {
       "resultId": "G9_ISTP",
@@ -1550,7 +1550,7 @@
       "path": "assets/chameleons/web/G9_ISTP.webp",
       "width": 512,
       "height": 512,
-      "status": "needs-review"
+      "status": "complete"
     },
     {
       "resultId": "G9_ISFP",
@@ -1561,7 +1561,7 @@
       "path": "assets/chameleons/web/G9_ISFP.webp",
       "width": 512,
       "height": 512,
-      "status": "needs-review"
+      "status": "complete"
     },
     {
       "resultId": "G9_ESTP",
@@ -1572,7 +1572,7 @@
       "path": "assets/chameleons/web/G9_ESTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G9_ESFP",
@@ -1583,7 +1583,7 @@
       "path": "assets/chameleons/web/G9_ESFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     }
   ],
   "commonIcon": {
