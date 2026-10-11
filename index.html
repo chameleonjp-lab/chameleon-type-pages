@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>カメレオン診断</title>
 <link rel="canonical" href="https://chameleonjp-lab.github.io/chameleon-type-pages/">
 <meta property="og:type" content="website">
@@ -94,6 +94,8 @@
     text-align:center;
   }
   .top-card h1{ margin:0 0 14px; font-size:30px; }
+  .common-chameleon{ display:block; width:112px; height:112px; max-width:100%; margin:0 auto 18px; object-fit:contain; }
+  .common-chameleon[hidden]{ display:none; }
   .lead{ margin:0 auto 28px; max-width:30em; color:var(--muted); }
   .notice{ margin:22px 0 0; color:var(--muted); font-size:13px; line-height:1.8; }
   .lab-card{
@@ -169,6 +171,22 @@
   .panel-actions{ display:grid; gap:10px; margin-top:6px; }
   .result-card{ border-radius:26px; overflow:hidden; }
   .result-hero{ background:var(--accent); color:#fff; padding:34px 22px 30px; text-align:center; }
+  .result-chameleon{
+    display:grid;
+    place-items:center;
+    width:200px;
+    height:200px;
+    max-width:100%;
+    margin:0 auto 22px;
+    padding:8px;
+    border:1px solid #e0dfdb;
+    border-radius:24px;
+    background:#f3f1ed;
+    color:#33403a;
+  }
+  .result-chameleon img{ display:block; width:100%; height:100%; min-width:0; min-height:0; object-fit:contain; }
+  .result-chameleon:not([data-image-state="loaded"]){ height:auto; min-height:200px; }
+  .result-image-status{ margin:0; font-size:16px; line-height:1.7; overflow-wrap:anywhere; }
   .result-label{ margin:0 0 6px; font-size:14px; font-weight:700; letter-spacing:.06em; opacity:.92; }
   .result-typename{ margin:0 0 12px; font-size:27px; font-weight:800; line-height:1.4; }
   .result-catch{ margin:0; font-size:15px; line-height:1.8; opacity:.96; }
@@ -197,6 +215,18 @@
   .result-actions{ display:grid; gap:10px; padding:20px; }
   .share-feedback{ margin:0; padding:0 20px 22px; text-align:center; color:var(--brand-deep); font-size:14px; font-weight:700; }
   .small-note{ color:var(--muted); font-size:13px; line-height:1.7; }
+  .diagnosis-disclaimer{
+    margin-top:28px;
+    padding:24px 20px;
+    border:1px solid #dbe4de;
+    border-radius:20px;
+    background:#f8faf8;
+    color:#33403a;
+    font-size:16px;
+    line-height:1.9;
+  }
+  .diagnosis-disclaimer h2{ margin:0 0 12px; font-size:18px; font-weight:800; }
+  .diagnosis-disclaimer p{ margin:0; }
   @media (max-width:360px){
     .type-grid{ gap:8px; }
     .type-chip{ min-height:56px; padding:10px 4px; }
@@ -205,6 +235,8 @@
     .date-selects select{ padding:14px 4px; }
     .top-card h1{ font-size:26px; }
     .result-typename{ font-size:24px; }
+    .result-chameleon{ width:160px; height:160px; border-radius:20px; }
+    .result-chameleon:not([data-image-state="loaded"]){ min-height:160px; }
   }
   @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
 </style>
@@ -213,6 +245,7 @@
 <div class="wrap">
   <section id="screen-top" class="screen">
     <div class="top-card">
+      <img id="top-common-icon" class="common-chameleon" alt="深緑のカメレオン" width="112" height="112" hidden>
       <h1>カメレオン診断</h1>
       <p class="lead">生年月日とMBTIから、あなたのカメレオンタイプを診断します。</p>
       <button id="btn-start" class="btn btn-primary btn-lg" type="button">診断を始める</button>
@@ -228,6 +261,7 @@
 
   <section id="screen-input" class="screen" hidden>
     <div class="panel">
+      <img id="input-common-icon" class="common-chameleon" alt="深緑のカメレオン" width="112" height="112" hidden>
       <h2>生年月日とMBTIを選んでください</h2>
       <fieldset class="field">
         <legend class="field-label">生年月日</legend>
@@ -252,6 +286,9 @@
   <section id="screen-result" class="screen" hidden>
     <article class="result-card">
       <header class="result-hero" id="result-hero">
+        <div class="result-chameleon" id="r-chameleon-slot" aria-busy="false">
+          <p class="result-image-status" id="r-chameleon-status" role="status">画像を準備中です</p>
+        </div>
         <p class="result-label" id="r-label"></p>
         <h2 class="result-typename" id="r-typename"></h2>
         <p class="result-catch" id="r-catch"></p>
@@ -287,6 +324,10 @@
       <p class="share-feedback" id="share-feedback" hidden></p>
     </article>
   </section>
+  <footer class="diagnosis-disclaimer" id="diagnosis-disclaimer" aria-labelledby="diagnosis-disclaimer-heading">
+    <h2 id="diagnosis-disclaimer-heading">この診断について</h2>
+    <p>カメレオン診断は、あくまで占い・娯楽として楽しむためのコンテンツです。科学的な性格検査や心理・医療の診断ではなく、性格・能力・相性や将来を断定したり、保証したりするものではありません。結果は参考程度に受け止め、自分や他の人を決めつけず、自己理解や会話のきっかけとしてお楽しみください。</p>
+  </footer>
 </div>
 <script>
 (function(){
@@ -294,6 +335,7 @@
 
   var SITE_URL = "https://chameleonjp-lab.github.io/chameleon-type-pages/";
   var RESULTS_PATH = "./final/results.json";
+  var IMAGE_MANIFEST_PATH = "./assets/chameleons/manifest.json";
   var TYPES = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
   var TYPE_PATTERN = /\b(?:INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|ESFP)\b/g;
   var GROUP_PATTERN = /\bG[1-9]_(?:INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|ESFP)\b|\bG[1-9]\b/g;
@@ -322,6 +364,9 @@
   var loadState = "idle";
   var selectedType = null;
   var currentResult = null;
+  var IMAGES_BY_ID = new Map();
+  var imageManifestPromise = null;
+  var imageRenderVersion = 0;
 
   function $(id){ return document.getElementById(id); }
   function isText(v){ return typeof v === "string" && v.trim() !== ""; }
@@ -428,6 +473,109 @@
       });
   }
 
+  function isImageReady(entry){
+    return entry && (entry.status === "complete" || entry.status === "needs-review");
+  }
+  function isChameleonImagePath(path){
+    return isText(path) && /^assets\/chameleons\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.webp$/.test(path);
+  }
+  function loadCommonIcons(entry){
+    if (!isImageReady(entry) || !isChameleonImagePath(entry.path)) return;
+    ["top-common-icon", "input-common-icon"].forEach(function(id){
+      var image = $(id);
+      if (!image) return;
+      image.onload = function(){ image.hidden = false; };
+      image.onerror = function(){ image.hidden = true; };
+      image.src = "./" + entry.path;
+    });
+  }
+  function loadImageManifest(){
+    if (imageManifestPromise) return imageManifestPromise;
+    imageManifestPromise = fetch(IMAGE_MANIFEST_PATH, { cache:"no-store" })
+      .then(function(res){
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(function(data){
+        if (!data || data.schemaVersion !== 1 || !Array.isArray(data.images)) throw new Error("画像対応表の形式が不正です");
+        var images = new Map();
+        data.images.forEach(function(entry){
+          if (!entry || !isText(entry.resultId) || images.has(entry.resultId)) throw new Error("画像対応表の結果IDが不正です");
+          images.set(entry.resultId, entry);
+        });
+        IMAGES_BY_ID = images;
+        loadCommonIcons(data.commonIcon);
+        return true;
+      })
+      .catch(function(e){
+        console.warn("画像対応表を読み込めませんでした", e);
+        return false;
+      });
+    return imageManifestPromise;
+  }
+  function resetResultImage(message){
+    var slot = $("r-chameleon-slot");
+    var status = $("r-chameleon-status");
+    if (!slot || !status) return;
+    slot.textContent = "";
+    status.textContent = message;
+    status.hidden = false;
+    slot.appendChild(status);
+    slot.setAttribute("aria-busy", "false");
+    slot.dataset.imageState = "pending";
+  }
+  function renderResultImage(result){
+    var version = ++imageRenderVersion;
+    var slot = $("r-chameleon-slot");
+    if (!slot) return;
+    resetResultImage("画像を準備中です");
+    slot.dataset.resultId = result.id;
+    slot.dataset.baseColorHex = result.baseColorHex;
+    slot.dataset.imagePath = "";
+    loadImageManifest().then(function(ok){
+      if (version !== imageRenderVersion || !currentResult || currentResult.id !== result.id) return;
+      var entry = IMAGES_BY_ID.get(result.id);
+      if (entry && isChameleonImagePath(entry.path)) slot.dataset.imagePath = entry.path;
+      if (!ok || !entry) {
+        resetResultImage("画像を表示できませんでした。診断結果はそのままご覧いただけます。");
+        slot.dataset.imageState = "error";
+        return;
+      }
+      if (!isImageReady(entry)) return;
+      if (!isChameleonImagePath(entry.path) || normalizeHex(entry.baseColorHex, "").toUpperCase() !== normalizeHex(result.baseColorHex, "").toUpperCase()) {
+        resetResultImage("画像を表示できませんでした。診断結果はそのままご覧いただけます。");
+        slot.dataset.imageState = "error";
+        return;
+      }
+      resetResultImage("画像を読み込み中です");
+      slot.setAttribute("aria-busy", "true");
+      slot.dataset.imageState = "loading";
+      var image = document.createElement("img");
+      image.alt = publicText(result.typeName) + "（" + publicText(result.baseColorName) + "）のカメレオン";
+      image.width = entry.width;
+      image.height = entry.height;
+      image.decoding = "async";
+      image.onload = function(){
+        if (version !== imageRenderVersion || !currentResult || currentResult.id !== result.id) return;
+        var status = $("r-chameleon-status");
+        slot.textContent = "";
+        if (status) {
+          status.hidden = true;
+          slot.appendChild(status);
+        }
+        slot.appendChild(image);
+        slot.setAttribute("aria-busy", "false");
+        slot.dataset.imageState = "loaded";
+      };
+      image.onerror = function(){
+        if (version !== imageRenderVersion || !currentResult || currentResult.id !== result.id) return;
+        resetResultImage("画像を表示できませんでした。診断結果はそのままご覧いただけます。");
+        slot.dataset.imageState = "error";
+      };
+      image.src = "./" + entry.path;
+    });
+  }
+
   function makeOption(value, label){
     var option = document.createElement("option");
     option.value = value;
@@ -515,6 +663,10 @@
   }
 
   function showScreen(name){
+    if (name !== "result") {
+      imageRenderVersion++;
+      resetResultImage("画像を準備中です");
+    }
     ["top", "input", "result"].forEach(function(key){
       var el = $("screen-" + key);
       if (el) el.hidden = key !== name;
@@ -597,6 +749,7 @@
   }
   function renderResult(result){
     currentResult = result;
+    renderResultImage(result);
     if (result && result.shareNumber) {
       history.replaceState(null, "", "?result=" + encodeURIComponent(String(result.shareNumber)));
     }
@@ -760,6 +913,7 @@
   function init(){
     buildDateSelects();
     buildTypeGrid();
+    loadImageManifest();
     $("btn-start").addEventListener("click", function(){ clearResultQuery(); showScreen("input"); });
     $("btn-back-top").addEventListener("click", function(){ clearResultQuery(); showScreen("top"); });
     $("btn-diagnose").addEventListener("click", onDiagnose);
