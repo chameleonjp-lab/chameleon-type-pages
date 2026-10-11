@@ -153,7 +153,7 @@
       "path": "assets/chameleons/web/G1_ISFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G1_ESTP",
@@ -164,7 +164,7 @@
       "path": "assets/chameleons/web/G1_ESTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G1_ESFP",
@@ -175,7 +175,7 @@
       "path": "assets/chameleons/web/G1_ESFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G2_INTJ",
@@ -186,7 +186,7 @@
       "path": "assets/chameleons/web/G2_INTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G2_INTP",
@@ -197,7 +197,7 @@
       "path": "assets/chameleons/web/G2_INTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G2_ENTJ",
@@ -208,7 +208,7 @@
       "path": "assets/chameleons/web/G2_ENTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G2_ENTP",
@@ -461,7 +461,7 @@
       "path": "assets/chameleons/web/G3_ISFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G3_ESTJ",
@@ -472,7 +472,7 @@
       "path": "assets/chameleons/web/G3_ESTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G3_ESFJ",
@@ -483,7 +483,7 @@
       "path": "assets/chameleons/web/G3_ESFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G3_ISTP",
@@ -494,7 +494,7 @@
       "path": "assets/chameleons/web/G3_ISTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G3_ISFP",
@@ -505,7 +505,7 @@
       "path": "assets/chameleons/web/G3_ISFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G3_ESTP",
@@ -769,7 +769,7 @@
       "path": "assets/chameleons/web/G5_INFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ENFJ",
@@ -780,7 +780,7 @@
       "path": "assets/chameleons/web/G5_ENFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ENFP",
@@ -802,7 +802,7 @@
       "path": "assets/chameleons/web/G5_ISTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ISFJ",
@@ -813,7 +813,7 @@
       "path": "assets/chameleons/web/G5_ISFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ESTJ",
@@ -824,7 +824,7 @@
       "path": "assets/chameleons/web/G5_ESTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ESFJ",
@@ -835,7 +835,7 @@
       "path": "assets/chameleons/web/G5_ESFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ISTP",
@@ -846,7 +846,7 @@
       "path": "assets/chameleons/web/G5_ISTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ISFP",
@@ -857,7 +857,7 @@
       "path": "assets/chameleons/web/G5_ISFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G5_ESTP",
@@ -1121,7 +1121,7 @@
       "path": "assets/chameleons/web/G7_INFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G7_ENFJ",
@@ -1132,7 +1132,7 @@
       "path": "assets/chameleons/web/G7_ENFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G7_ENFP",
@@ -1143,7 +1143,7 @@
       "path": "assets/chameleons/web/G7_ENFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G7_ISTJ",
@@ -1154,7 +1154,7 @@
       "path": "assets/chameleons/web/G7_ISTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "needs-review"
     },
     {
       "resultId": "G7_ISFJ",
@@ -1429,7 +1429,7 @@
       "path": "assets/chameleons/web/G9_INTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G9_ENTJ",
@@ -1440,7 +1440,7 @@
       "path": "assets/chameleons/web/G9_ENTJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G9_ENTP",
@@ -1451,7 +1451,7 @@
       "path": "assets/chameleons/web/G9_ENTP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G9_INFJ",
@@ -1462,7 +1462,7 @@
       "path": "assets/chameleons/web/G9_INFJ.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G9_INFP",
@@ -1473,7 +1473,7 @@
       "path": "assets/chameleons/web/G9_INFP.webp",
       "width": 512,
       "height": 512,
-      "status": "pending"
+      "status": "complete"
     },
     {
       "resultId": "G9_ENFJ",
